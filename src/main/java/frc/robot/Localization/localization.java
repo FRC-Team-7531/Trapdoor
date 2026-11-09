@@ -15,8 +15,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -27,7 +25,7 @@ public class localization {
     private Pigeon2 m_gyro = CommandSwerveDrivetrain.pidgey; //GET REAL ID
     private SwerveModulePosition[] modulePositions = drivetrain.modulePositions;
     private boolean useMegaTag2 = true;
-
+    
 
     private final Rotation2d kBlueAlliancePerspectiveRotation = Rotation2d.kZero;
 
@@ -36,6 +34,7 @@ public class localization {
             new Translation2d(Inches.of(10), Inches.of(-10)),
             new Translation2d(Inches.of(-10), Inches.of(10)),
             new Translation2d(Inches.of(-10), Inches.of(-10))
+            
     });
 
     private SwerveDrivePoseEstimator m_poseEstimator = new SwerveDrivePoseEstimator(
@@ -51,7 +50,6 @@ public class localization {
      * @return null
      */
     public void updateOdometry(String cameraName) {
-        NetworkTable camera = NetworkTableInstance.getDefault().getTable("cameraName");
         m_poseEstimator.update(m_gyro.getRotation2d(), modulePositions);
 
         boolean doRejectUpdate = false;
@@ -95,9 +93,16 @@ public class localization {
             }
         }
     }
+    /**Returns the robot's estimated pose
+     * @return Pose2d
+     */
     public Pose2d getRobotPose() {
         return m_poseEstimator.getEstimatedPosition();
     }
+    /**
+     * Returns the robot's estimated pose as a Field2d
+     * @return Field2d
+     */
     public Field2d getField2d() {
         Field2d field = new Field2d();
         field.setRobotPose(getRobotPose());

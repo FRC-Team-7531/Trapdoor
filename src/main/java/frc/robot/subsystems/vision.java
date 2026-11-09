@@ -25,7 +25,6 @@ public class vision extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println("UPDATING/VANCE STINKS");
     // This method will be called once per scheduler run
     localization.updateOdometry("limelight-barbuda");
   }
