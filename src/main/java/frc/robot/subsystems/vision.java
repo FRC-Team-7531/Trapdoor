@@ -4,28 +4,22 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SendableBuilderImpl;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Localization.localization;
 
 public class vision extends SubsystemBase {
   /** Creates a new vision. */
   public vision() {
-    builder.setTable(
-        NetworkTableInstance.getDefault()
-            .getTable("MyField")
-    );
-    localization.getField2d().initSendable(builder);
-    builder.startListeners();
+    SmartDashboard.putData("Field", localization.getField2d());
   }
   localization localization = new localization();
-  SendableBuilderImpl builder = new SendableBuilderImpl();
   
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     localization.updateOdometry("limelight-barbuda");
+    SmartDashboard.putData("Field", localization.getField2d());
   }
 }

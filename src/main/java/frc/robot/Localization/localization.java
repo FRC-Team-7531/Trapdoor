@@ -79,17 +79,19 @@ public class localization {
             LimelightHelpers.SetRobotOrientation(cameraName,
                     m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
             LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2(cameraName);
-            if (Math.abs(m_gyro.getAngularVelocityZWorld().getValueAsDouble()) > 720) {
-                doRejectUpdate = true;
-            }
-            if (mt2.tagCount == 0) {
-                doRejectUpdate = true;
-            }
-            if (!doRejectUpdate) {
-                m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
-                m_poseEstimator.addVisionMeasurement(
-                        mt2.pose,
-                        mt2.timestampSeconds);
+            if (mt2 != null) {
+                if (Math.abs(m_gyro.getAngularVelocityZWorld().getValueAsDouble()) > 720) {
+                    doRejectUpdate = true;
+                }
+                if (mt2.tagCount == 0) {
+                    doRejectUpdate = true;
+                }
+                if (!doRejectUpdate) {
+                    m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
+                    m_poseEstimator.addVisionMeasurement(
+                            mt2.pose,
+                            mt2.timestampSeconds);
+                }
             }
         }
     }
